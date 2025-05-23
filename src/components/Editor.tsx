@@ -1,18 +1,19 @@
-import CustomAutoFocusPlugin from "@/plugins/CustomAutoFocusPlugin";
-import MyOnChangePlugin from "@/plugins/MyOnChangePlugin";
-import ToolbarPlugin from "@/plugins/ToolbarPlugin";
-import TreeViewPlugin from "@/plugins/TreeViewPlugin";
-import theme from "@/theme";
-import { constructImportMap, removeStylesExportDOM } from "@/utils";
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { EmojiNode } from '@/nodes/EmojiNode';
+import EmojiPlugin from '@/plugins/EmojiPlugin';
+import MyOnChangePlugin from '@/plugins/MyOnChangePlugin';
+import ToolbarPlugin from '@/plugins/ToolbarPlugin';
+import TreeViewPlugin from '@/plugins/TreeViewPlugin';
+import theme from '@/theme';
+import { constructImportMap, removeStylesExportDOM } from '@/utils';
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import {
   InitialConfigType,
   LexicalComposer,
-} from "@lexical/react/LexicalComposer";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+} from '@lexical/react/LexicalComposer';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import {
   DOMExportOutput,
   DOMExportOutputMap,
@@ -22,10 +23,10 @@ import {
   LexicalNode,
   ParagraphNode,
   TextNode,
-} from "lexical";
-import { useState } from "react";
+} from 'lexical';
+import { useState } from 'react';
 
-const placeholder = "Enter some rich text...";
+const placeholder = 'Enter some rich text...';
 
 const exportMap: DOMExportOutputMap = new Map<
   Klass<LexicalNode>,
@@ -40,8 +41,8 @@ const initialConfig: InitialConfigType = {
     export: exportMap,
     import: constructImportMap(),
   },
-  namespace: "React.js Demo",
-  nodes: [ParagraphNode, TextNode],
+  namespace: 'React.js Demo',
+  nodes: [ParagraphNode, TextNode, EmojiNode],
   onError(error: Error) {
     throw error;
   },
@@ -74,7 +75,7 @@ const Editor = () => {
             ErrorBoundary={LexicalErrorBoundary}
           />
           <HistoryPlugin delay={10} />
-          <CustomAutoFocusPlugin />
+          <EmojiPlugin />
           <AutoFocusPlugin />
           <TreeViewPlugin />
           <MyOnChangePlugin onChange={onChange} />

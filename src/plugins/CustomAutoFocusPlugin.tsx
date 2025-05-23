@@ -1,5 +1,5 @@
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import React, { useEffect } from "react";
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useEffect } from 'react';
 
 const CustomAutoFocusPlugin = () => {
   const [editor] = useLexicalComposerContext();

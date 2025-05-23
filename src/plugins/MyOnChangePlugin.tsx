@@ -1,8 +1,6 @@
-// When the editor changes, you can get notified via the
-
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { EditorState } from "lexical";
-import { useEffect } from "react";
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { EditorState } from 'lexical';
+import { useEffect } from 'react';
 
 const MyOnChangePlugin = ({
   onChange,
@@ -10,6 +8,7 @@ const MyOnChangePlugin = ({
   onChange: (editorState: EditorState) => void;
 }) => {
   const [editor] = useLexicalComposerContext();
+
   useEffect(() => {
     return editor.registerUpdateListener(({ editorState }) => {
       onChange(editorState);
