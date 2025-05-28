@@ -7,9 +7,13 @@ import {
   CAN_UNDO_COMMAND,
   FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
+  OUTDENT_CONTENT_COMMAND,
+  KEY_TAB_COMMAND,
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
+  INDENT_CONTENT_COMMAND,
+  COMMAND_PRIORITY_EDITOR,
 } from 'lexical';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -28,6 +32,7 @@ const ToolbarPlugin = () => {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -70,9 +75,26 @@ const ToolbarPlugin = () => {
           return false;
         },
         LowPriority
-      )
+      ),
+      editor.registerCommand(
+        KEY_TAB_COMMAND,
+        (payload) => {
+          const event: KeyboardEvent = payload;
+          event.preventDefault();
+          return editor.dispatchCommand(
+            event.shiftKey ? OUTDENT_CONTENT_COMMAND : INDENT_CONTENT_COMMAND,
+            undefined
+          );
+        },
+        COMMAND_PRIORITY_EDITOR
+      ),
+      editor.registerEditableListener((isEditable) => {
+        setIsEditable(isEditable);
+      })
     );
   }, [editor, $updateToolbar]);
+
+  console.log(editor.isEditable());
 
   return (
     <div className="toolbar" ref={toolbarRef}>
@@ -169,7 +191,19 @@ const ToolbarPlugin = () => {
         aria-label="Justify Align"
       >
         <i className="format justify-align" />
-      </button>{' '}
+      </button>
+      <button
+        onClick={() => {
+          if (editor.isEditable()) {
+            editor.setEditable(false);
+          } else {
+            editor.setEditable(true);
+            editor.focus();
+          }
+        }}
+      >
+        {isEditable ? '쓰기 가능' : '쓰기 불가능'}
+      </button>
     </div>
   );
 };

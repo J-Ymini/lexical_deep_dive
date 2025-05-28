@@ -53,7 +53,6 @@ const Editor = () => {
   const [editorState, setEditorState] = useState<string>();
 
   function onChange(onChangeState: EditorState) {
-    console.log(onChangeState.toJSON());
     setEditorState(JSON.stringify(onChangeState.toJSON()));
   }
 
